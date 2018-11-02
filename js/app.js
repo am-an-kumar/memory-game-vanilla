@@ -75,6 +75,10 @@ const controller = {
       // incrementing the move count and updating the UI...
       controlsView.setMoveCount(++controller.moves);
       console.log(controller.moves);
+
+      // incremeting the cards solved count...
+      controller.cardsSolved += 2;
+
     }, 800);
   },
 
@@ -171,7 +175,8 @@ const headerView = {};
 
 const controlsView = {
   // reference to the span element with move count...
-  movesElement: "",
+  movesElement: '',
+  rating: '',
 
   // function to initialize the controls view...
   init: function init() {
@@ -179,12 +184,22 @@ const controlsView = {
     controlsView.render();
 
     controlsView.movesElement = document.querySelector("#moves-count");
+    controlsView.rating = document.querySelector('#rating');
+
     // so that on refresh the game board is reset...
     controlsView.setMoveCount(0);
   },
 
   // increments the UI for moves count by 1...
   setMoveCount: function setMoveCount(moves) {
+
+    // making 2-star for 13th move, and 1-star for 19th move...
+    switch(moves){
+      case 13:
+      case 19:
+          controlsView.rating.lastElementChild.remove();
+    }
+
     controlsView.movesElement.textContent = moves;
   },
 
@@ -212,7 +227,7 @@ const controlsView = {
 ///////////////////////////////////////////////////////////////////////////
 
 const deckView = {
-  deck: document.querySelector("#deck"),
+  deck: '',
 
   // will bind handlers to #deck...
   bindClickHandler: function bindClickHandler() {
@@ -237,6 +252,9 @@ const deckView = {
   init: function() {
     // rendering the deckView
     deckView.render();
+
+    // getting a reference to the ul#deck element
+    deckView.deck = document.querySelector('#deck');
 
     // adding listeners to the deckView
     deckView.addListeners();
@@ -279,6 +297,7 @@ const deckView = {
   }
 };
 
+// loading the game board, once the page is loaded...
 window.addEventListener("load", function() {
   controller.init();
 });
