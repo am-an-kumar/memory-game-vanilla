@@ -1,0 +1,149 @@
+*{
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+body, html{
+  width: 100%;
+  height: 100%;
+  padding: 2px;
+
+  min-width: 300px;
+  max-width: 600px;
+
+  /* border: 2px solid red; */
+  margin: 0px auto;
+
+  background-color: rgb(240, 245, 246);
+
+}
+
+body{
+
+  font-family: sans-serif;
+
+  /* flex-container part */
+  display: flex;
+  flex-flow: column;
+  flex-wrap: nowrap;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* style for header and its children */
+header{
+  /* border: 2px solid salmon; */
+  margin: 10px auto;
+
+  width: 100%;
+  text-align: center;
+}
+
+h1{
+  font-size: 1.8em;
+  font-weight: 300;
+
+  color: rgb(30, 84, 139);
+  background: linear-gradient(160deg, #c2afd2 0%, #94eee6 100%);
+}
+
+/* style for main and its children */
+main{
+  width: 100%;
+}
+
+
+/* style for section#controls and its children */
+section#controls{
+  /* border: 2px solid green; */
+  margin: 10px auto;
+
+  width: 100%;
+
+  /* flex-container part */
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: space-around;
+}
+
+#rating{
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+#rating > li{
+  display: inline;
+  color: gold;
+  font-size: 1.5em;
+}
+
+#moves{
+  font-size: 1.5em;
+}
+
+#moves-count{
+  color: red;
+}
+
+#refresh{
+  color: green;
+  font-size: 1.5em;
+}
+
+/* style for section#deck-container and its children */
+section#deck-container{
+  width: 100%;
+}
+
+ul#deck{
+
+  width: 100%;
+  height: 100%;
+
+  background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+  box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+  border-radius: 5px;
+
+  list-style-type: none;
+  padding: 10px 5px;
+
+  /* flex-container part */
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: center;
+
+}
+
+/* same as ul#deck > li */
+.card{
+
+  display: inline-block;
+  width: 22%;
+
+  box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+  background: #2e3d49;
+  color: #2e3d49; 
+
+  border-radius: 5px;
+  margin: 5px 2px;
+
+  min-width: 65px;
+  min-height: 80px;
+  cursor: pointer;
+
+  /* flex-container part */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card > i {
+  font-size: 1.2em;
+}
