@@ -75,10 +75,11 @@ section#controls{
   padding-left: 0px;
 }
 
-#rating > li{
+.star{
   display: inline;
   color: gold;
   font-size: 1.5em;
+  margin-right: 4px;
 }
 
 #moves{

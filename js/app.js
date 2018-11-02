@@ -42,12 +42,18 @@ const modal = {
   }
 };
 
-//////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 
 // Controller for the whole application...
 const controller = {
   // array to hold the index of currently open cards...
   openCards: [],
+
+  // variable to keep track of total number of moves...
+  moves: 0,
+
+  // counter of total number of cards solved...
+  cardsSolved: 0,
 
   // handles the case of right selection...
   openHandler: function openHandler() {
@@ -66,6 +72,9 @@ const controller = {
       // adding click listener to cards...
       deckView.bindClickHandler();
 
+      // incrementing the move count and updating the UI...
+      controlsView.setMoveCount(++controller.moves);
+      console.log(controller.moves);
     }, 800);
   },
 
@@ -89,12 +98,25 @@ const controller = {
 
       // adding click listener to cards...
       deckView.bindClickHandler();
+
+      // incrementing the move count and updating the UI...
+      controlsView.setMoveCount(++controller.moves);
+      console.log(controller.moves);
     }, 800);
   },
 
   init: function init() {
     // need to initialize the modal and shuffle the cards...
     modal.cards = modal.shuffle(modal.cards);
+
+    // initializing the variables for controller object...
+    controller.moves = 0;
+    controller.openCards = [];
+    controller.cardsSolved = 0;
+
+    // initializing the controls view...
+    controlsView.init();
+
     // need to initialize the view and render the deck...
     deckView.init();
   },
@@ -123,14 +145,12 @@ const controller = {
 
     // checking if it was the second selection...
     if (controller.openCards.length === 2) {
-
       // removing the handler from deck
       deckView.unbindClickHandler();
 
       // the 2 open cards are the same...
       if (
-        controller.openCards[0].cardName ===
-         controller.openCards[1].cardName
+        controller.openCards[0].cardName === controller.openCards[1].cardName
       ) {
         controller.openHandler();
       }
@@ -143,24 +163,65 @@ const controller = {
   }
 };
 
-////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 
 const headerView = {};
 
-const controlsView = {};
+///////////////////////////////////////////////////////////////////////////
+
+const controlsView = {
+  // reference to the span element with move count...
+  movesElement: "",
+
+  // function to initialize the controls view...
+  init: function init() {
+    // calling render() to render the dynamic part of controlsView...
+    controlsView.render();
+
+    controlsView.movesElement = document.querySelector("#moves-count");
+    // so that on refresh the game board is reset...
+    controlsView.setMoveCount(0);
+  },
+
+  // increments the UI for moves count by 1...
+  setMoveCount: function setMoveCount(moves) {
+    controlsView.movesElement.textContent = moves;
+  },
+
+  // rendering the dynamic part of controls view, the rating part...
+  render: function render() {
+    const docFrag = document.createDocumentFragment();
+
+    for (let i = 0; i < 3; i++) {
+      // creating list items and adding starts to it...
+      const listItem = document.createElement("li");
+      listItem.classList = 'star';
+      const iElement = document.createElement("i");
+      iElement.classList = "fa fa-star";
+      listItem.appendChild(iElement);
+
+      // adding the start to document fragment...
+      docFrag.appendChild(listItem);
+    }
+
+    // adding the docFrag to ul#rating...
+    document.querySelector("#rating").appendChild(docFrag);
+  }
+};
+
+///////////////////////////////////////////////////////////////////////////
 
 const deckView = {
-
-  deck: document.querySelector('#deck'),
+  deck: document.querySelector("#deck"),
 
   // will bind handlers to #deck...
   bindClickHandler: function bindClickHandler() {
-    deckView.deck.addEventListener('click', controller.handleCardClick);
+    deckView.deck.addEventListener("click", controller.handleCardClick);
   },
 
   // will unbind click handler from #deck
   unbindClickHandler: function unbindClickHandler() {
-    deckView.deck.removeEventListener('click', controller.handleCardClick);
+    deckView.deck.removeEventListener("click", controller.handleCardClick);
   },
 
   // function to open a card...
@@ -223,12 +284,5 @@ window.addEventListener("load", function() {
 });
 
 /*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
