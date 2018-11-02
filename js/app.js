@@ -55,12 +55,20 @@ const controller = {
   // counter of total number of cards solved...
   cardsSolved: 0,
 
+  // method to restart the game...
+  handleRestart: function handleRestart(){
+
+    // removing the content of ul#deck and ul#rating before re-initializing the game...
+    deckView.deck.innerHTML = '';
+    controlsView.rating.innerHTML = '';
+
+    controller.init();
+  },
+
   // method to finish the game...
   gameOver: function gameOver(){
-
     // removing event listeners on li
     deckView.unbindClickHandler();
-
     // this alert will later be replaced by a modal...
     alert('Game Over');
   },
@@ -84,12 +92,14 @@ const controller = {
 
       // incrementing the move count and updating the UI...
       controlsView.setMoveCount(++controller.moves);
+      console.log(controller.moves);
 
       // incremeting the cards solved count...
       controller.cardsSolved += 2;
 
       // checking if the game is over...
       if(controller.cardsSolved == 16){
+        console.log('Control came here...');
         controller.gameOver();
       }
 
@@ -196,6 +206,7 @@ const controlsView = {
   // reference to the span element with move count...
   movesElement: '',
   rating: '',
+  refresh: '',
 
   // function to initialize the controls view...
   init: function init() {
@@ -204,6 +215,10 @@ const controlsView = {
 
     controlsView.movesElement = document.querySelector("#moves-count");
     controlsView.rating = document.querySelector('#rating');
+    controlsView.restart = document.querySelector('#restart');
+
+    // adding click listener for restart button...
+    controlsView.restart.addEventListener('click', controller.handleRestart);
 
     // so that on refresh the game board is reset...
     controlsView.setMoveCount(0);
