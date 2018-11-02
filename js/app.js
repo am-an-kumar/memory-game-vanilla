@@ -55,6 +55,16 @@ const controller = {
   // counter of total number of cards solved...
   cardsSolved: 0,
 
+  // method to finish the game...
+  gameOver: function gameOver(){
+
+    // removing event listeners on li
+    deckView.unbindClickHandler();
+
+    // this alert will later be replaced by a modal...
+    alert('Game Over');
+  },
+
   // handles the case of right selection...
   openHandler: function openHandler() {
     // adding .card-right to both cards...
@@ -74,10 +84,14 @@ const controller = {
 
       // incrementing the move count and updating the UI...
       controlsView.setMoveCount(++controller.moves);
-      console.log(controller.moves);
 
       // incremeting the cards solved count...
       controller.cardsSolved += 2;
+
+      // checking if the game is over...
+      if(controller.cardsSolved == 16){
+        controller.gameOver();
+      }
 
     }, 800);
   },
@@ -105,7 +119,6 @@ const controller = {
 
       // incrementing the move count and updating the UI...
       controlsView.setMoveCount(++controller.moves);
-      console.log(controller.moves);
     }, 800);
   },
 
