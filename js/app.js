@@ -140,6 +140,12 @@ const controller = {
 
   // event handler for 'click' event on the cards
   handleCardClick: function handleCardClick(event) {
+
+    // doing nothing for click on ul#deck
+    if(event.target.nodeName === 'UL'){
+      return;
+    }
+
     // getting the index for card and then getting the card-name from the modal...
     const cardElement = event.target;
     const cardIndex = Number(cardElement.getAttribute("data-index"));
