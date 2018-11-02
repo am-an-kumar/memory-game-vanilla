@@ -146,6 +146,14 @@ ul#deck{
   align-items: center;
 }
 
+.card-right{
+  background-color: rgb(59, 221, 59);
+}
+
+.card-wrong{
+  background-color: rgb(234, 15, 15);
+}
+
 .card > i {
   font-size: 1.2em;
 }

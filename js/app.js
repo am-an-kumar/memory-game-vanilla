@@ -37,17 +37,13 @@ const modal = {
   },
 
   // method that returns a particular card based on card index...
-  returnCard: function returnCard(index){
+  returnCard: function returnCard(index) {
     return modal.cards[index];
   }
-
-
 };
-
 
 // Controller for the whole application...
 const controller = {
-
   // array to hold the index of currently open cards...
   openCards: [],
 
@@ -59,32 +55,69 @@ const controller = {
   },
 
   // event handler for 'click' event on the cards
-  handleCardClick: function handleCardClick(event){
-
+  handleCardClick: function handleCardClick(event) {
     // getting the index for card and then getting the card-name from the modal...
-    const cardIndex = Number(event.target.getAttribute('data-index'));
+    const cardElement = event.target;
+    const cardIndex = Number(cardElement.getAttribute("data-index"));
     const cardName = modal.returnCard(cardIndex);
 
+    // leaving this for now...
     // returning the control if the card is already open...
-
+    // if(controller.openCards.length === 1){
+    //   return;
+    // }
 
     // the card is not already open, so pushing it to openCards[] and opening it in the UI...
-    controller.openCards.push({element: event.target, cardName: cardName});
-    // the openCards[] will be an array of objects with 2 properties, the cardElement and the cardName
+    controller.openCards.push({
+      cardElement: event.target,
+      cardName: cardName
+    });
+    deckView.open({ cardElement, cardName });
 
-
-    
     // if it is the second card that is opened, checking if the 2 cards match, and is so, leave the cards open...
+    if (controller.openCards.length === 2) {
+      // the 2 open cards are the same...
+      if (
+        controller.openCards[0].cardName === controller.openCards[1].cardName
+      ) {
+        // leaving the cards open as they matched...
+        // adding class .card-right to show that the selection was right...
+        controller.openCards[0].cardElement.classList.add("card-right");
+        controller.openCards[1].cardElement.classList.add("card-right");
 
-    // if not, invoke deckView.close() on both the cards...
+        setTimeout(function() {
+          // clearing the right selection after the timeout...
+          controller.openCards[0].cardElement.classList.remove("card-right");
+          controller.openCards[1].cardElement.classList.remove("card-right");
 
-    // and in any case, flush the openCards object...
+          // flushing the controller.openCards...
+          controller.openCards = [];
 
+        }, 800);
+      }
 
+      // 2 different cards are opened...
+      else {
+        // adding class .card-wrong to show that the selection was wrong...
+        controller.openCards[0].cardElement.classList.add("card-wrong");
+        controller.openCards[1].cardElement.classList.add("card-wrong");
+
+        setTimeout(function() {
+
+          // removing the class .card-wrong from the cards...
+          controller.openCards[0].cardElement.classList.remove("card-wrong");
+          controller.openCards[1].cardElement.classList.remove("card-wrong");
+
+          // closing the cards as the cards do not match...
+          deckView.close(controller.openCards[0]);
+          deckView.close(controller.openCards[1]);
+
+          // flushing controller.openCards...
+          controller.openCards = [];
+        }, 1000);
+      }
+    }
   }
-
-
-
 };
 
 const headerView = {};
@@ -92,18 +125,16 @@ const headerView = {};
 const controlsView = {};
 
 const deckView = {
-
-
-  open: function open(cardElement, cardName){  
+  open: function open({ cardElement, cardName }) {
     // adding cardName as a class to the i element
     cardElement.firstElementChild.classList.add(cardName);
   },
 
-  close: function close(cardElement, cardName){
-    cardElement.firstElementChild.classList = 'fa';
+  close: function close({ cardElement, cardName }) {
+    cardElement.firstElementChild.classList = "fa";
   },
 
-  init: function(){
+  init: function() {
     // rendering the deckView
     deckView.render();
 
@@ -111,14 +142,12 @@ const deckView = {
     deckView.addListeners();
   },
 
-
-  addListeners: function(){
-
+  addListeners: function() {
     // adding listener to the ul which will catch all the click events on any of the cards...
-    document.querySelector('#deck').addEventListener('click', controller.handleCardClick);
-
+    document
+      .querySelector("#deck")
+      .addEventListener("click", controller.handleCardClick);
   },
-
 
   render: function() {
     // creating a document fragment
@@ -131,7 +160,7 @@ const deckView = {
       listItem.classList.add("card");
 
       // adding the 'data-index' attribute to every list item
-      listItem.setAttribute('data-index', i);
+      listItem.setAttribute("data-index", i);
       // we will later use node.getAttribute() api to get the value of index...
 
       // creating an i tag and adding class .fa to it...
