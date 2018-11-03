@@ -46,6 +46,10 @@ const modal = {
 
 // Controller for the whole application...
 const controller = {
+
+  // list of already open indices...
+  openIndices: [],
+
   // array to hold the index of currently open cards...
   openCards: [],
 
@@ -116,6 +120,11 @@ const controller = {
     controller.openCards[0].cardElement.classList.add("card-right");
     controller.openCards[1].cardElement.classList.add("card-right");
 
+    // pushing index of cards to openIndices...
+    controller.openIndices.push(Number(controller.openCards[0].cardElement.getAttribute('data-index')));
+
+    controller.openIndices.push(Number(controller.openCards[1].cardElement.getAttribute('data-index')));
+
     setTimeout(function() {
       // removing .card-right from both cards...
       controller.openCards[0].cardElement.classList.remove("card-right");
@@ -175,6 +184,7 @@ const controller = {
     controller.openCards = [];
     controller.cardsSolved = 0;
     controller.time = 0;
+    controller.openIndices = [];
 
     // initializing the controls view...
     controlsView.init();
@@ -220,7 +230,9 @@ const controller = {
     if (
       controller.openCards.length == 1 &&
       controller.openCards[0].cardElement === cardElement
-    ) {
+    ) 
+    {
+      console.log('control came here...');
       return;
     }
 
