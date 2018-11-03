@@ -226,9 +226,11 @@ const controller = {
     if(event.target.nodeName === 'I'){
       cardElement = event.target.parentElement;
     }
+    else if(event.target.nodeName === 'LI'){
+      cardElement = event.target;
+    }
 
     // getting the index for card and then getting the card-name from the modal...
-    cardElement = event.target;
     const cardIndex = Number(cardElement.getAttribute("data-index"));
     const cardName = modal.returnCard(cardIndex);
 
