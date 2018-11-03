@@ -221,24 +221,41 @@ const controller = {
       return;
     }
 
+    let cardElement;
+    // if the i element was clicked...
+    if(event.target.nodeName === 'I'){
+      cardElement = event.target.parentElement;
+    }
+
     // getting the index for card and then getting the card-name from the modal...
-    const cardElement = event.target;
+    cardElement = event.target;
     const cardIndex = Number(cardElement.getAttribute("data-index"));
     const cardName = modal.returnCard(cardIndex);
 
-    // handle for case if the same card is clicked twice...
-    if (
-      controller.openCards.length == 1 &&
-      controller.openCards[0].cardElement === cardElement
-    ) 
-    {
-      console.log('control came here...');
-      return;
+    // if no card is open...
+    if(controller.openCards.length === 0){
+      // the clicked card should not be present in controller.openIndices
+      if(controller.openIndices.indexOf(cardIndex) !== -1){
+        return;
+      }
     }
 
-    // the card is not already open, so pushing it to openCards[] and opening it in the UI...
+    // if one card is open...
+    else if(controller.openCards.length === 1){
+      // the clicked card should not already be open...
+      if(controller.openCards[0].cardElement === cardElement){
+        return;
+      }
+      else if(controller.openIndices.indexOf(cardIndex) !== -1){
+        return;
+      }
+
+    } 
+
+    // if control came here, then everything is OK...
+    // so pushing the card to controller.openCards, and flipping it open using deckView.open();
     controller.openCards.push({
-      cardElement: event.target,
+      cardElement: cardElement,
       cardName: cardName
     });
     deckView.open({ cardElement, cardName });
