@@ -55,22 +55,28 @@ const controller = {
   // counter of total number of cards solved...
   cardsSolved: 0,
 
+  // storing the modal type...
+  modalType: "",
+
   // method to restart the game...
-  handleRestart: function handleRestart(){
+  handleRestart: function handleRestart() {
+    // updating the modal message...
+    modalView.updateMessage("Are you sure that you want to restart the game?");
 
-    // removing the content of ul#deck and ul#rating before re-initializing the game...
-    deckView.deck.innerHTML = '';
-    controlsView.rating.innerHTML = '';
-
-    controller.init();
+    // making the modal visible...
+    modalView.toggleModal();
   },
 
   // method to finish the game...
-  gameOver: function gameOver(){
+  gameOver: function gameOver() {
     // removing event listeners on li
     deckView.unbindClickHandler();
-    // this alert will later be replaced by a modal...
-    alert('Game Over');
+
+    // updating the modal message...
+    modalView.updateMessage("Do you want to play a new game?");
+
+    // making the modal visible...
+    modalView.toggleModal();
   },
 
   // handles the case of right selection...
@@ -98,12 +104,11 @@ const controller = {
       controller.cardsSolved += 2;
 
       // checking if the game is over...
-      if(controller.cardsSolved == 16){
-        console.log('Control came here...');
+      if (controller.cardsSolved == 16) {
+        console.log("Control came here...");
         controller.gameOver();
       }
-
-    }, 800);
+    }, 400);
   },
 
   // handles the case of error in selection...
@@ -129,7 +134,7 @@ const controller = {
 
       // incrementing the move count and updating the UI...
       controlsView.setMoveCount(++controller.moves);
-    }, 800);
+    }, 400);
   },
 
   init: function init() {
@@ -146,13 +151,30 @@ const controller = {
 
     // need to initialize the view and render the deck...
     deckView.init();
+
+    // setting the modal view and initializing the modalView...
+    modalView.init();
+  },
+
+  // method for handling modal response...
+  modalResponseHandler: function modalResponseHandler(event) {
+    const btnText = event.target.textContent.toLowerCase();
+
+    // in case of new game or restart, refereshing the board...
+    if (btnText === "yes") {
+      // removing the content of ul#deck and ul#rating before re-initializing the game...
+      deckView.deck.innerHTML = "";
+      controlsView.rating.innerHTML = "";
+      controller.init();
+    }
+    // hiding the modal...
+    modalView.toggleModal();
   },
 
   // event handler for 'click' event on the cards
   handleCardClick: function handleCardClick(event) {
-
     // doing nothing for click on ul#deck
-    if(event.target.nodeName === 'UL'){
+    if (event.target.nodeName === "UL") {
       return;
     }
 
@@ -198,15 +220,49 @@ const controller = {
 
 ////////////////////////////////////////////////////////////////////////////
 
-const headerView = {};
+const modalView = {
+  modalElement: "",
+  modalContentMessageElement: "",
+  modalYesButtonElement: "",
+  modalNoButtonElement: "",
+  modalButtonParentElement: "",
+
+  init: function init() {
+    // getting the reference to DOM elements...
+    modalView.modalElement = document.querySelector("#modal");
+    modalView.modalContentMessageElement = document.querySelector(
+      "#modal-content-message"
+    );
+    modalView.modalYesButtonElement = document.querySelector("#yes-btn");
+    modalView.modalNoButtonElement = document.querySelector("#no-btn");
+    modalView.modalButtonParentElement =
+      modalView.modalElement.firstElementChild.lastElementChild;
+
+    // binding the handlers...
+    modalView.modalButtonParentElement.addEventListener(
+      "click",
+      controller.modalResponseHandler
+    );
+  },
+
+  // method to update the message of the modal...
+  updateMessage: function updateMessage(message) {
+    modalView.modalContentMessageElement.textContent = message;
+  },
+
+  // method to toggle the modal...
+  toggleModal: function toggleModal() {
+    modalView.modalElement.classList.toggle("modal-show");
+  }
+};
 
 ///////////////////////////////////////////////////////////////////////////
 
 const controlsView = {
   // reference to the span element with move count...
-  movesElement: '',
-  rating: '',
-  refresh: '',
+  movesElement: "",
+  rating: "",
+  refresh: "",
 
   // function to initialize the controls view...
   init: function init() {
@@ -214,11 +270,11 @@ const controlsView = {
     controlsView.render();
 
     controlsView.movesElement = document.querySelector("#moves-count");
-    controlsView.rating = document.querySelector('#rating');
-    controlsView.restart = document.querySelector('#restart');
+    controlsView.rating = document.querySelector("#rating");
+    controlsView.restart = document.querySelector("#restart");
 
     // adding click listener for restart button...
-    controlsView.restart.addEventListener('click', controller.handleRestart);
+    controlsView.restart.addEventListener("click", controller.handleRestart);
 
     // so that on refresh the game board is reset...
     controlsView.setMoveCount(0);
@@ -226,12 +282,11 @@ const controlsView = {
 
   // increments the UI for moves count by 1...
   setMoveCount: function setMoveCount(moves) {
-
     // making 2-star for 13th move, and 1-star for 19th move...
-    switch(moves){
+    switch (moves) {
       case 13:
       case 19:
-          controlsView.rating.lastElementChild.remove();
+        controlsView.rating.lastElementChild.remove();
     }
 
     controlsView.movesElement.textContent = moves;
@@ -244,7 +299,7 @@ const controlsView = {
     for (let i = 0; i < 3; i++) {
       // creating list items and adding starts to it...
       const listItem = document.createElement("li");
-      listItem.classList = 'star';
+      listItem.classList = "star";
       const iElement = document.createElement("i");
       iElement.classList = "fa fa-star";
       listItem.appendChild(iElement);
@@ -261,7 +316,7 @@ const controlsView = {
 ///////////////////////////////////////////////////////////////////////////
 
 const deckView = {
-  deck: '',
+  deck: "",
 
   // will bind handlers to #deck...
   bindClickHandler: function bindClickHandler() {
@@ -288,7 +343,7 @@ const deckView = {
     deckView.render();
 
     // getting a reference to the ul#deck element
-    deckView.deck = document.querySelector('#deck');
+    deckView.deck = document.querySelector("#deck");
 
     // adding listeners to the deckView
     deckView.addListeners();
