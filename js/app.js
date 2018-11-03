@@ -104,7 +104,7 @@ const controller = {
     controller.stopTimer();
 
     // updating the modal message...
-    modalView.updateMessage("Do you want to play a new game?" + controller.moves);
+    modalView.updateMessage(`You finished,rating ${controlsView.rating.childElementCount} star and time ${controller.time} seconds. Do you want to play a new game`);
 
     // making the modal visible...
     modalView.toggleModal();
@@ -129,14 +129,12 @@ const controller = {
 
       // incrementing the move count and updating the UI...
       controlsView.setMoveCount(++controller.moves);
-      console.log(controller.moves);
 
       // incremeting the cards solved count...
       controller.cardsSolved += 2;
 
       // checking if the game is over...
       if (controller.cardsSolved == 16) {
-        console.log("Control came here...");
         controller.gameOver();
       }
     }, 400);
