@@ -52,11 +52,39 @@ const controller = {
   // variable to keep track of total number of moves...
   moves: 0,
 
+  // variable to keep track of time...
+  time: 0,
+
+  // id for setInterval,
+  timerId: '',
+
   // counter of total number of cards solved...
   cardsSolved: 0,
 
   // storing the modal type...
   modalType: "",
+
+  // function to start timer...
+  startTimer: function startTimer(){
+
+    controller.timerId = setInterval(function(){
+      controlsView.setTime(++controller.time);
+    },1000);
+  },
+
+  // function to start timer...
+  stopTimer: function stopTimer(){
+    clearInterval(controller.timerId);
+  },
+
+  // executes for the first card click and starts the timer...
+  handleFirstClick: function handleFirstClick(event){
+    if(event.target.nodeName == 'LI'){
+
+      controller.startTimer();
+      deckView.deck.removeEventListener('click', controller.handleFirstClick);
+    }
+  },
 
   // method to restart the game...
   handleRestart: function handleRestart() {
@@ -72,8 +100,11 @@ const controller = {
     // removing event listeners on li
     deckView.unbindClickHandler();
 
+    // stopping the timer...
+    controller.stopTimer();
+
     // updating the modal message...
-    modalView.updateMessage("Do you want to play a new game?");
+    modalView.updateMessage("Do you want to play a new game?" + controller.moves);
 
     // making the modal visible...
     modalView.toggleModal();
@@ -145,6 +176,7 @@ const controller = {
     controller.moves = 0;
     controller.openCards = [];
     controller.cardsSolved = 0;
+    controller.time = 0;
 
     // initializing the controls view...
     controlsView.init();
@@ -166,6 +198,8 @@ const controller = {
       deckView.deck.innerHTML = "";
       controlsView.rating.innerHTML = "";
       controller.init();
+
+      controller.stopTimer();
     }
     // hiding the modal...
     modalView.toggleModal();
@@ -173,6 +207,7 @@ const controller = {
 
   // event handler for 'click' event on the cards
   handleCardClick: function handleCardClick(event) {
+
     // doing nothing for click on ul#deck
     if (event.target.nodeName === "UL") {
       return;
@@ -263,6 +298,7 @@ const controlsView = {
   movesElement: "",
   rating: "",
   refresh: "",
+  timer: '',
 
   // function to initialize the controls view...
   init: function init() {
@@ -272,12 +308,21 @@ const controlsView = {
     controlsView.movesElement = document.querySelector("#moves-count");
     controlsView.rating = document.querySelector("#rating");
     controlsView.restart = document.querySelector("#restart");
+    controlsView.timer = document.querySelector('#timer');
 
     // adding click listener for restart button...
     controlsView.restart.addEventListener("click", controller.handleRestart);
 
     // so that on refresh the game board is reset...
     controlsView.setMoveCount(0);
+
+    // resetting the timer
+    controlsView.setTime('0');
+  },
+
+  // method to update the time
+  setTime: function setTime(time){
+    controlsView.timer.textContent = time;
   },
 
   // increments the UI for moves count by 1...
@@ -354,6 +399,12 @@ const deckView = {
     document
       .querySelector("#deck")
       .addEventListener("click", controller.handleCardClick);
+
+    // checks for the first click to start timer...
+    document
+      .querySelector("#deck")
+      .addEventListener("click", controller.handleFirstClick);
+
   },
 
   render: function() {

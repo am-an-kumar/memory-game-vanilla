@@ -160,6 +160,14 @@ section#controls {
   justify-content: space-around;
 }
 
+#timer-container{
+  font-size: 1.5em;
+}
+
+#timer{
+  color: red;
+}
+
 #rating {
   list-style-type: none;
   padding-left: 0px;
@@ -299,4 +307,26 @@ ul#deck {
 	transform-origin:50% 50%;
 	animation-iteration-count: infinite;
 	animation-timing-function: linear;
+}
+
+/* media queries */
+ @media (min-width: 420px){
+  .card{
+    min-height: 80px;
+    min-width: 80px;
+  } 
+}
+
+@media (min-width: 470px){
+  .card{
+    min-height: 100px;
+    min-width: 100px;
+  } 
+}
+
+@media (min-width: 535px){
+  .card{
+    min-height: 110px;
+    min-width: 110px;
+  } 
 }
