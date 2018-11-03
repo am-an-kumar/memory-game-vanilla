@@ -1,9 +1,10 @@
-*{
+* {
   box-sizing: border-box;
   margin: 0px;
 }
 
-body, html{
+body,
+html {
   width: 100%;
   height: 100%;
   padding: 2px;
@@ -15,11 +16,9 @@ body, html{
   margin: 0px auto;
 
   background-color: rgb(240, 245, 246);
-
 }
 
-body{
-
+body {
   font-family: sans-serif;
 
   /* flex-container part */
@@ -32,7 +31,7 @@ body{
 }
 
 /* style for header and its children */
-header{
+header {
   /* border: 2px solid salmon; */
   margin: 10px auto;
 
@@ -40,7 +39,7 @@ header{
   text-align: center;
 }
 
-h1{
+h1 {
   font-size: 1.8em;
   font-weight: 300;
 
@@ -49,13 +48,12 @@ h1{
 }
 
 /* style for main and its children */
-main{
+main {
   width: 100%;
 }
 
-
 /* style for section#controls and its children */
-section#controls{
+section#controls {
   /* border: 2px solid green; */
   margin: 10px auto;
 
@@ -70,38 +68,37 @@ section#controls{
   justify-content: space-around;
 }
 
-#rating{
+#rating {
   list-style-type: none;
   padding-left: 0px;
 }
 
-.star{
+.star {
   display: inline;
   color: gold;
   font-size: 1.5em;
   margin-right: 4px;
 }
 
-#moves{
+#moves {
   font-size: 1.5em;
 }
 
-#moves-count{
+#moves-count {
   color: red;
 }
 
-#restart{
+#restart {
   color: green;
   font-size: 1.5em;
 }
 
 /* style for section#deck-container and its children */
-section#deck-container{
+section#deck-container {
   width: 100%;
 }
 
-ul#deck{
-
+ul#deck {
   width: 100%;
   height: 100%;
 
@@ -119,18 +116,16 @@ ul#deck{
 
   align-items: center;
   justify-content: center;
-
 }
 
 /* same as ul#deck > li */
-.card{
-
+.card {
   display: inline-block;
   width: 22%;
 
   box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
   background: #2e3d49;
-  
+
   font-size: 2em;
   color: #02ccba;
 
@@ -147,15 +142,63 @@ ul#deck{
   align-items: center;
 }
 
-.card-right{
+.card-right {
   background-color: rgb(8, 105, 53);
   color: white;
 }
 
-.card-wrong{
+.card-wrong {
   background-color: rgb(234, 15, 15);
+
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
 }
 
 .card > i {
   font-size: 1.2em;
+}
+
+@keyframes spaceboots {
+	0% { transform: translate(2px, 1px) rotate(0deg); }
+	10% { transform: translate(-1px, -2px) rotate(-1deg); }
+	20% { transform: translate(-3px, 0px) rotate(1deg); }
+	30% { transform: translate(0px, 2px) rotate(0deg); }
+	40% { transform: translate(1px, -1px) rotate(1deg); }
+	50% { transform: translate(-1px, 2px) rotate(-1deg); }
+	60% { transform: translate(-3px, 1px) rotate(0deg); }
+	70% { transform: translate(2px, 1px) rotate(-1deg); }
+	80% { transform: translate(-1px, -1px) rotate(1deg); }
+	90% { transform: translate(2px, 2px) rotate(0deg); }
+	100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@-webkit-keyframes shakecards {
+	0% { -webkit-transform: translate(2px, 1px) rotate(0deg); }
+	10% { -webkit-transform: translate(-1px, -2px) rotate(-1deg); }
+	20% { -webkit-transform: translate(-3px, 0px) rotate(1deg); }
+	30% { -webkit-transform: translate(0px, 2px) rotate(0deg); }
+	40% { -webkit-transform: translate(1px, -1px) rotate(1deg); }
+	50% { -webkit-transform: translate(-1px, 2px) rotate(-1deg); }
+	60% { -webkit-transform: translate(-3px, 1px) rotate(0deg); }
+	70% { -webkit-transform: translate(2px, 1px) rotate(-1deg); }
+	80% { -webkit-transform: translate(-1px, -1px) rotate(1deg); }
+	90% { -webkit-transform: translate(2px, 2px) rotate(0deg); }
+	100% { -webkit-transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.card-right,
+.card-wrong {
+	-webkit-animation-name: shakecards;
+	-webkit-animation-duration: 0.8s;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  
+  animation-name: spaceboots;
+	animation-duration: 0.8s;
+	transform-origin:50% 50%;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
 }
