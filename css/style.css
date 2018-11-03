@@ -64,7 +64,7 @@ body {
   padding: 3px;
   width: 90%;
 
-  background-color: #94a9c3;
+  background-color: #cad5e2;
   border-radius: 5px;
 
   font-size: 1.5em;
@@ -115,11 +115,11 @@ body {
 }
 
 #yes-btn{
-  background-color: rgb(15, 195, 75, 0.7);
+  background-color: rgba(16, 238, 90, 0.7);
 }
 
 #yes-btn:hover, #yes-btn:active, #yes-btn:focus{
-  background-color: rgb(15, 195, 75, 1);
+  background-color: rgba(16, 238, 90, 1);
 }
 
 /* style for header and its children */
