@@ -382,18 +382,10 @@ ul#deck {
   }
 
   #timer-container{
-    order: -4;
+    order: -2;
   }
 
-  #rating{
-
-  }
-  
   #moves{
-    order: -3; 
-  }
-
-  #restart{
-
+    order: -1; 
   }
 }
