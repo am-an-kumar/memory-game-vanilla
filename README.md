@@ -2,27 +2,28 @@
 
 ## Table of Contents
 
-* [Instructions](#instructions)
-* [Dependencies](#dependencies)
-* [Contributing](#contributing)
+- [Instructions](#instructions)
+- [Dependencies](#dependencies)
+- [Contributing](#contributing)
 
 ## Instructions
 
 A modern look at the classic memory game!
 
-To get started, open [the GitHub pages site for this repo](https://aman-kumar-rai.github.io/memory-game-vanilla/) and start clicking on squares!
+To get started, open [the GitHub pages site for this repo](https://am-an-kumar.github.io/memory-game-vanilla/) and start clicking on squares!
 
 A star will be deducted after so many failed matches, so strain that brain!
 
-* 12 Moves - you will be left with 2 stars
-* 18 Moves - you will be left with 1 star
+- 12 Moves - you will be left with 2 stars
+- 18 Moves - you will be left with 1 star
 
 ## Dependencies
 
 This project is built using vanilla JS. So, no javascript library is needed.
 
 ### CSS
-* [Font Awesome](https://fontawesome.com)
+
+- [Font Awesome](https://fontawesome.com)
 
 ## Contributing
 
